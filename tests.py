@@ -24,19 +24,18 @@ class TestBooksCollector:
 
     # напиши свои тесты ниже
     # чтобы тесты были независимыми в каждом из них создавай отдельный экземпляр класса BooksCollector()
-    @pytest.mark.parametrize("rating", [3, 10])
     def test_set_book_rating_assigned_rating_rating_set(
-        self, rating, collector: BooksCollector
+        self, collector: BooksCollector
     ):
-        collector.set_book_rating("Гордость и предубеждение и зомби", rating)
-        assert collector.get_book_rating("Гордость и предубеждение и зомби") == rating
+        collector.set_book_rating("Гордость и предубеждение и зомби", 3)
+        assert collector.get_book_rating("Гордость и предубеждение и зомби") == 3
 
-    @pytest.mark.parametrize("rating", [-1, 13])
+    @pytest.mark.parametrize("rating", [-1, 0, 11])
     def test_set_book_rating_assigned_rating_rating_not_set(
         self, rating, collector: BooksCollector
     ):
         collector.set_book_rating("Гордость и предубеждение и зомби", rating)
-        assert collector.get_book_rating("Гордость и предубеждение и зомби") != rating
+        assert collector.get_book_rating("Гордость и предубеждение и зомби") == 1
 
     @pytest.mark.parametrize(
         "book, rating",
@@ -60,7 +59,7 @@ class TestBooksCollector:
         collector = BooksCollector()
         for book in books:
             collector.add_new_book(book)
-        assert list(collector.get_books_rating().keys()) == books
+        assert list(collector.get_books_rating()) == books
 
     @pytest.mark.parametrize("book", ["Война и мир", "Капитанская дочка"])
     def test_add_book_in_favorites_added_book_favorite_book(
